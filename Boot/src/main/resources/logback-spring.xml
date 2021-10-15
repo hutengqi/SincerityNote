@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
+<!--日志级别：TRACE < DEBUG < INFO < WARN < ERROR , 控制着输出日志的等级：低于设定级别的信息不会输出-->
+<!--scan:当此属性为 true 时，若配置文件发生改变将会被重新加载，默认为 true-->
+<!--scanPeriod:用于设置监测配置文件是否发生改动的时间间隔，若无单位则默认单位时为毫秒，此属性在 scan="true" 时生效，默认为 1 分钟-->
+<!--debug:当此属性为 true 时，将打印 logback 内部日志，实时查看 logback 运行状态，默认为 false。-->
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+
+    <!--定义常量-->
     <property name="FILE_ERROR_PATTERN"
               value="${FILE_LOG_PATTERN:-%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} %file:%line: %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <!-- 彩色日志依赖的渲染类 -->
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>INFO</level>
@@ -29,8 +41,8 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--文件路径,定义了日志的切分方式——把每一天的日志归档到一个文件中,以防止日志填满整个磁盘空间-->
             <FileNamePattern>logs/demo-logback/info.created_on_%d{yyyy-MM-dd}.part_%i.log</FileNamePattern>
-            <!--只保留最近90天的日志-->
-            <maxHistory>90</maxHistory>
+            <!--只保留最近30天的日志-->
+            <maxHistory>30</maxHistory>
             <!--用来指定日志文件的上限大小，那么到了这个值，就会删除旧的日志-->
             <!--<totalSizeCap>1GB</totalSizeCap>-->
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -58,8 +70,8 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--文件路径,定义了日志的切分方式——把每一天的日志归档到一个文件中,以防止日志填满整个磁盘空间-->
             <FileNamePattern>logs/demo-logback/error.created_on_%d{yyyy-MM-dd}.part_%i.log</FileNamePattern>
-            <!--只保留最近90天的日志-->
-            <maxHistory>90</maxHistory>
+            <!--只保留最近30天的日志-->
+            <maxHistory>30</maxHistory>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <!-- maxFileSize:这是活动文件的大小，默认值是10MB,本篇设置为1KB，只是为了演示 -->
                 <maxFileSize>2MB</maxFileSize>

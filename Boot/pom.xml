@@ -50,6 +50,7 @@
         </profile>
     </profiles>
 
+    <!-- Build 规则-->
     <build>
         <resources>
             <resource>
