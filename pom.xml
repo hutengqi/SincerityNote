@@ -16,6 +16,7 @@
     <properties>
         <spring.version>2.3.2.RELEASE</spring.version>
         <hutool.version>5.4.5</hutool.version>
+        <logback.version>1.2.3</logback.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
@@ -37,6 +38,10 @@
         </dependencies>
     </dependencyManagement>
 
-
-
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
 </project>
