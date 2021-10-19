@@ -4,25 +4,26 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
 
-import java.util.Arrays;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
-@SpringBootApplication
 @Slf4j
+@SpringBootApplication
 public class BootApplication {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnknownHostException {
         ConfigurableApplicationContext context = SpringApplication.run(BootApplication.class, args);
-        String[] beanDefinitionNames = context.getBeanDefinitionNames();
-        StringBuilder stringBuilder = new StringBuilder();
-        Arrays.asList(beanDefinitionNames).forEach(x -> stringBuilder.append(x).append("\n"));
-        int length = context.getBeanDefinitionNames().length;
-        log.trace("Spring boot启动初始化了 {} 个 Bean", length);
-        log.debug("Spring boot启动初始化了 {} 个 Bean", length);
-        log.info("Spring boot启动初始化了 {} 个 Bean", length);
-        log.warn("Spring boot启动初始化了 {} 个 Bean", length);
-        log.info("Spring boot 启动的都有{}", stringBuilder);
-        log.error("Spring boot启动初始化了 {} 个 Bean", length);
+        ConfigurableEnvironment environment = context.getEnvironment();
+        String ip = InetAddress.getLocalHost().getHostAddress();
+        String port = environment.getProperty("server.port");
+        String path = environment.getProperty("server.servlet.context-path");
+        log.info("\n--------------------------------------------------------------------\n\t" +
+                "SincerityNote-Boot is Running! Access URLs:\n\t" +
+                "Local: \t\thttp://localhost:" + port + path + "/\n\t" +
+                "External: \thttp://" + ip + ":" + port + path + "/\n\t" +
+                "Knife4j: \t\thttp://" + ip + ":" + port + path + "/doc.html\n" +
+                "--------------------------------------------------------------------");
     }
-
 }

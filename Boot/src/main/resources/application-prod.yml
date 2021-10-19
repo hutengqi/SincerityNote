@@ -1,2 +1,4 @@
-server:
-  port: 8787
+# knife4j 配置
+knife4j:
+  enable: true
+  production: true
