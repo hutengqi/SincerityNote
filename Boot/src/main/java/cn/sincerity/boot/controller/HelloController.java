@@ -1,6 +1,6 @@
 package cn.sincerity.boot.controller;
 
-import cn.sincerity.common.constant.ApiVersionConstant;
+import cn.sincerity.common.swagger.ApiVersionConstant;
 import cn.sincerity.common.swagger.ApiVersion;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

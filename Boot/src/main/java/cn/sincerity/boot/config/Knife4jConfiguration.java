@@ -1,7 +1,8 @@
 package cn.sincerity.boot.config;
 
-import cn.sincerity.common.constant.ApiVersionConstant;
+import cn.sincerity.common.swagger.ApiVersionConstant;
 import cn.sincerity.common.swagger.ApiVersion;
+import cn.sincerity.common.swagger.Knife4jConfigurator;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,40 +22,10 @@ import java.util.Arrays;
  */
 @Configuration
 @EnableSwagger2WebMvc
-public class Knife4jConfiguration {
-
-    /**
-     * Swagger 配置
-     */
-    @Bean
-    public Docket defaultApi2(){
-        return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
-                .select()
-                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
-                .paths(PathSelectors.any())
-                .build();
-    }
+public class Knife4jConfiguration extends Knife4jConfigurator {
 
     @Bean
-    public Docket v1000(){
-        return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
-                .groupName(ApiVersionConstant.V1000)
-                .select()
-                .apis(input -> {
-                    ApiVersion apiVersion = input.getHandlerMethod().getMethodAnnotation(ApiVersion.class);
-                    return apiVersion != null && Arrays.asList(apiVersion.group()).contains(ApiVersionConstant.V1000);
-                })
-                .paths(PathSelectors.any())
-                .build();
-    }
-
-    private ApiInfo apiInfo(){
-        return new ApiInfoBuilder()
-                .title("SincerityNote-Boot")
-                .description("SincerityNote-Boot 的接口文档")
-                .version("1.0")
-                .build();
+    public Docket apiV1000 (){
+        return super.versionDocket(ApiVersionConstant.V1000);
     }
 }
